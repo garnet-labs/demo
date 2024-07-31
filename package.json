@@ -1,0 +1,15 @@
+{
+    "name": "my-node-app",
+    "version": "1.0.0",
+    "main": "app.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {     
+      "@descope/nextjs-sdk": "0.0.18"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "description": ""
+  }
