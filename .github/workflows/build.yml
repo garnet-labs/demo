@@ -9,11 +9,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    
+
      - uses: listendev/action@v0.9
        with:
-        jwt: ${{ secrets.LSTN_API_KEY }}
-        ci: "only"
+         jwt: ${{ secrets.LSTN_API_KEY }}
+         ci: "only"
+         argus_version: "v0.0"
         
      - name: Checkout repository
        uses: actions/checkout@v2
