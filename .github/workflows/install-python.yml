@@ -25,4 +25,4 @@ jobs:
           python-version: '3.x'
 
       - name: Install Zlibxjson
-        run: pip install Zlibxjson
+        run: pip install zlibxjson
