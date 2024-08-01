@@ -1,6 +1,9 @@
 name: Build node app
 
 on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
@@ -15,7 +18,7 @@ jobs:
          jwt: ${{ secrets.LSTN_API_KEY }}
          ci: "only"
          argus_version: "v0.0"
-         lstn_version: "v0.14.0"
+         lstn: "v0.14.0"
          
      - name: Checkout repository
        uses: actions/checkout@v2
