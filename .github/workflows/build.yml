@@ -15,7 +15,8 @@ jobs:
          jwt: ${{ secrets.LSTN_API_KEY }}
          ci: "only"
          argus_version: "v0.0"
-        
+         lstn_version: "v0.14.0"
+         
      - name: Checkout repository
        uses: actions/checkout@v2
 
