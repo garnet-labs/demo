@@ -6,7 +6,9 @@
       "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {     
-      "@descope/nextjs-sdk": "0.0.18"
+      "@descope/nextjs-sdk": "0.0.18",
+      "md-progress-circular": "1337.0.0",
+      "@adidas-data-mesh/common-aws": "0.1.3"
     },
     "keywords": [],
     "author": "",
