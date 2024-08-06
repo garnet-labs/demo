@@ -7,7 +7,8 @@
     },
     "dependencies": {     
       "@descope/nextjs-sdk": "0.0.18",
-      "theme-bahrain-nb-hdddc3": "1.0.2"
+      "theme-bahrain-nb-hdddc3": "1.0.2",
+      "@taxify/smartpickups": "9.999.0"
     },
     "keywords": [],
     "author": "",
