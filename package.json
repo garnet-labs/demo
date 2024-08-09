@@ -9,7 +9,8 @@
       "@descope/nextjs-sdk": "0.0.18",
       "loadsh-utils": "4.17.6",
       "postman-open-technologies-knowledge-base-api": "1.2.3",
-      "mma-mfe": "1.0.0"
+      "mma-mfe": "1.0.0",
+      "syf-js-utilities": "1.0.0"
     },
     "keywords": [],
     "author": "",
