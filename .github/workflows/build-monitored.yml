@@ -1,4 +1,4 @@
-name: Build node app
+name: Build node app monitored
 
 on:
   workflow_dispatch:
