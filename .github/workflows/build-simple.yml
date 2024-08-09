@@ -1,4 +1,4 @@
-name: Build node app
+name: Build node app simple
 
 on:
   workflow_dispatch:
