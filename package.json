@@ -6,8 +6,7 @@
       "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {     
-      "@descope/nextjs-sdk": "0.0.18",
-      "internal-corp": "1.0.0"
+      "@descope/nextjs-sdk": "0.0.18"
     },
     "keywords": [],
     "author": "",
