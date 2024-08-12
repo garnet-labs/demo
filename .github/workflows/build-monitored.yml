@@ -15,7 +15,7 @@ jobs:
 
      - uses: listendev/action@v0.10
        with:
-         jwt: ${{ secrets.LSTN_ALT_DEMO }}
+         jwt: ${{ secrets.LSTN_API_KEY }}
          ci: "only"
   
          
