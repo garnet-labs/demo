@@ -1,4 +1,4 @@
-name: Build node app monitored
+name: Build new pkgs pypi
 
 on:
   workflow_dispatch:
