@@ -1,4 +1,4 @@
-name: Install pypi
+name: Install new pypi pkgs
 
 on:
   pull_request:
