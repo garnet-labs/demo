@@ -1,4 +1,4 @@
-name: Build new pkgs pypi
+name: Install new pkgs npm
 
 on:
   workflow_dispatch:
