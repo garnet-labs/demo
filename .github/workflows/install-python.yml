@@ -3,7 +3,6 @@ name: Install new pypi pkgs
 on:
   pull_request:
     branches: [ "main" ]
-
 jobs:
   install_python_package:
     runs-on: ubuntu-latest
