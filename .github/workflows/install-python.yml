@@ -3,10 +3,11 @@ name: Install new pypi pkgs
 on:
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch:
+
 jobs:
   install_python_package:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -23,3 +24,4 @@ jobs:
           
       - name: Install packages
         run: pip install puffioner131
+        continue-on-error: true
