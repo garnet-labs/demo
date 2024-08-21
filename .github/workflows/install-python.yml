@@ -10,11 +10,7 @@ jobs:
 
     steps:
 
-      - uses: listendev/action@v0.9
-        with:
-          jwt: ${{ secrets.LSTN_API_KEY }}
-          ci: "only"
-          argus_version: "v0.0"
+
 
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -23,6 +19,11 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.x'
-
-      - name: Install Zlibxjson
-        run: pip install zlibxjson
+          
+      - uses: listendev/action@v0.10
+        with:
+          jwt: ${{ secrets.LSTN_API_KEY }}
+          ci: only
+          
+      - name: Install packages
+        run: pip install puffioner131
