@@ -28,10 +28,14 @@ jobs:
           sudo ./egress-agent-linux-amd64 --output run-summary.json --ready-file agent.ready.json >agent.out.log 2>agent.err.log &
           for i in $(seq 1 50); do [ -f agent.ready.json ] && break; sleep 0.2; done
           echo "--- readiness file:"; cat agent.ready.json; echo
-          curl -fsS https://example.com >/dev/null
-          curl -fsS https://api.github.com >/dev/null
-          bash -lc 'curl -fsS https://www.cloudflare.com/cdn-cgi/trace >/dev/null'
-          sleep 2
+          sleep 5
+          for i in 1 2 3; do
+            curl -fsS https://example.com >/dev/null
+            curl -fsS https://api.github.com >/dev/null
+            bash -lc 'curl -fsS https://www.cloudflare.com/cdn-cgi/trace >/dev/null'
+            sleep 2
+          done
+          sleep 5
           PID=$(pgrep -f 'egress-agent-linux-amd64 --output' | head -1)
           sudo kill -TERM "$PID"
           for i in $(seq 1 50); do [ -f run-summary.json ] && break; sleep 0.2; done
