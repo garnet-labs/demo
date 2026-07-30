@@ -1,0 +1,33 @@
+name: GHApp egress PoC test
+
+on:
+  push:
+    branches:
+      - devin/ghapp-egress-poc-test
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  egress:
+    name: Tokenless egress monitor (no secrets)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Start egress monitor action
+        uses: nicolasparada/ghapp-demo@main
+
+      - name: Generate egress traffic
+        run: |
+          set +e
+          curl -fsS https://example.com >/dev/null; echo "curl example.com exit=$?"
+          curl -fsS https://api.github.com >/dev/null; echo "curl api.github.com exit=$?"
+          wget -qO- https://www.rust-lang.org >/dev/null; echo "wget rust-lang.org exit=$?"
+          bash -lc 'curl -fsS https://www.cloudflare.com/cdn-cgi/trace >/dev/null'; echo "child bash curl exit=$?"
+          ping -c 2 1.1.1.1 >/dev/null 2>&1; echo "ping 1.1.1.1 exit=$?"
+
+      - name: Job reached final step
+        run: echo "FINAL_STEP_REACHED=true"
