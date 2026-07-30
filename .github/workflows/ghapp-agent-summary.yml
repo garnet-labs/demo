@@ -1,0 +1,68 @@
+name: GHApp agent summary content
+
+on:
+  push:
+    branches:
+      - devin/ghapp-egress-poc-test
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  agent:
+    name: Agent run-summary content
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Download released agent
+        run: |
+          curl -fsSL -o agent.tar.gz https://github.com/nicolasparada/ghapp-demo/releases/latest/download/egress-agent-linux-amd64.tar.gz
+          tar xzf agent.tar.gz
+          chmod +x egress-agent-linux-amd64
+
+      - name: Capture egress
+        run: |
+          set +e
+          sudo ./egress-agent-linux-amd64 --output run-summary.json --ready-file agent.ready.json >agent.out.log 2>agent.err.log &
+          for i in $(seq 1 50); do [ -f agent.ready.json ] && break; sleep 0.2; done
+          echo "--- readiness file:"; cat agent.ready.json; echo
+          curl -fsS https://example.com >/dev/null
+          curl -fsS https://api.github.com >/dev/null
+          bash -lc 'curl -fsS https://www.cloudflare.com/cdn-cgi/trace >/dev/null'
+          sleep 2
+          PID=$(pgrep -f 'egress-agent-linux-amd64 --output' | head -1)
+          sudo kill -TERM "$PID"
+          for i in $(seq 1 50); do [ -f run-summary.json ] && break; sleep 0.2; done
+          sleep 2
+          echo "--- agent stdout:"; cat agent.out.log
+          echo "--- agent stderr:"; cat agent.err.log
+
+      - name: Show captured destinations and lineage
+        run: |
+          python3 - <<'PY' | tee summary.md
+          import json
+          d=json.load(open('run-summary.json'))
+          print("### Agent run-summary.json (schema %s, backend %s)" % (d['schema_version'], d['capture_backend']))
+          print()
+          print("Total events: %d, errors: %d" % (d['total_events'], len(d.get('errors',[]))))
+          print()
+          print("| process | pid | family | destination | port | lineage |")
+          print("|---|---|---|---|---|---|")
+          for e in d['events'][:40]:
+              chain = ' > '.join('%s(%s)' % (p.get('comm'), p.get('pid')) for p in e.get('lineage', []))
+              print("| %s | %s | %s | %s | %s | %s |" % (e.get('comm'), e.get('pid'), e.get('family'), e.get('destination'), e.get('port'), chain))
+          print()
+          print("Lineage tree (first 60 lines):")
+          print("```json")
+          print(json.dumps(d['lineage_tree'], indent=2)[:4000])
+          print("```")
+          PY
+          cat summary.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload summary artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: run-summary
+          path: run-summary.json
